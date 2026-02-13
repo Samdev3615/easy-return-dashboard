@@ -1,0 +1,150 @@
+{
+  "totalSequences": 65,
+  "completedSequences": 24,
+  "totalHours": 42,
+  "lastUpdate": "2026-02-13",
+  "phases": [
+    {
+      "id": 1,
+      "name": "Setup & Architecture",
+      "sequences": "S001-S008",
+      "total": 8,
+      "completed": 8,
+      "status": "completed",
+      "emoji": "✅",
+      "hours": 8
+    },
+    {
+      "id": 2,
+      "name": "Authentification",
+      "sequences": "S009-S015",
+      "total": 7,
+      "completed": 7,
+      "status": "completed",
+      "emoji": "✅",
+      "hours": 12
+    },
+    {
+      "id": 3,
+      "name": "Tracking GPS",
+      "sequences": "S026-S033",
+      "total": 8,
+      "completed": 1,
+      "status": "in_progress",
+      "emoji": "🚀",
+      "hours": 4
+    },
+    {
+      "id": 4,
+      "name": "Gestion Commandes",
+      "sequences": "S034-S041",
+      "total": 8,
+      "completed": 0,
+      "status": "pending",
+      "emoji": "⏳",
+      "hours": 0
+    },
+    {
+      "id": 5,
+      "name": "Paiements",
+      "sequences": "S042-S049",
+      "total": 8,
+      "completed": 0,
+      "status": "pending",
+      "emoji": "⏳",
+      "hours": 0
+    },
+    {
+      "id": 6,
+      "name": "Notifications",
+      "sequences": "S050-S057",
+      "total": 8,
+      "completed": 0,
+      "status": "pending",
+      "emoji": "⏳",
+      "hours": 0
+    },
+    {
+      "id": 7,
+      "name": "Admin Dashboard",
+      "sequences": "S016-S025",
+      "total": 10,
+      "completed": 8,
+      "status": "in_progress",
+      "emoji": "🚀",
+      "hours": 14
+    },
+    {
+      "id": 8,
+      "name": "Testing & Déploiement",
+      "sequences": "S058-S065",
+      "total": 8,
+      "completed": 0,
+      "status": "pending",
+      "emoji": "⏳",
+      "hours": 0
+    }
+  ],
+  "sessions": [
+    {
+      "id": 42,
+      "date": "2026-02-13",
+      "title": "GPS Background Tracking",
+      "sequences": ["S026"],
+      "duration": 2,
+      "highlights": [
+        "s26_1",
+        "s26_2",
+        "s26_3"
+      ]
+    },
+    {
+      "id": 41,
+      "date": "2026-02-12",
+      "title": "UX Improvements",
+      "sequences": ["S025"],
+      "duration": 1.5,
+      "highlights": [
+        "s25_1",
+        "s25_2",
+        "s25_3"
+      ]
+    },
+    {
+      "id": 40,
+      "date": "2026-02-11",
+      "title": "Admin Dashboard - Orders",
+      "sequences": ["S024"],
+      "duration": 3,
+      "highlights": [
+        "s24_1",
+        "s24_2",
+        "s24_3"
+      ]
+    },
+    {
+      "id": 39,
+      "date": "2026-02-10",
+      "title": "Admin Dashboard - Users",
+      "sequences": ["S023"],
+      "duration": 2.5,
+      "highlights": [
+        "s23_1",
+        "s23_2",
+        "s23_3"
+      ]
+    },
+    {
+      "id": 38,
+      "date": "2026-02-09",
+      "title": "Driver App - Profile",
+      "sequences": ["S022"],
+      "duration": 2,
+      "highlights": [
+        "s22_1",
+        "s22_2",
+        "s22_3"
+      ]
+    }
+  ]
+}
