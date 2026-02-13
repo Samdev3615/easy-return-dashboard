@@ -25,11 +25,9 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <img
-                src="/syntech-logo.svg"
-                alt="SynTech Studios"
-                className="h-10"
-              />
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-600 rounded-lg flex items-center justify-center">
+                <Box className="w-6 h-6 text-white" />
+              </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Easy Return</h1>
                 <p className="text-xs text-gray-500">Project Dashboard</p>
@@ -37,7 +35,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
 
             {/* Navigation Desktop */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-4">
               <nav className="hidden md:flex space-x-1">
                 {navItems.map((item) => (
                   <NavLink
@@ -57,6 +55,11 @@ export default function Layout({ children }: LayoutProps) {
                 ))}
               </nav>
               <LanguageSwitcher />
+              <img
+                src="/syntech-full.svg"
+                alt="SynTech Studios"
+                className="h-8 hidden md:block"
+              />
             </div>
           </div>
         </div>
