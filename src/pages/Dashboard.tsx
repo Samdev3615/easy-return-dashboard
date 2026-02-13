@@ -6,10 +6,11 @@ import StatCard from '../components/StatCard';
 import PhaseCard from '../components/PhaseCard';
 import SessionCard from '../components/SessionCard';
 import ProgressBar from '../components/ProgressBar';
+import type { DevLog } from '../types';
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  const { totalSequences, completedSequences, totalHours, lastUpdate, phases, sessions } = devlogData;
+  const { totalSequences, completedSequences, totalHours, lastUpdate, phases, sessions } = devlogData as DevLog;
 
   // Données pour le graphique des heures par phase
   const phaseChartData = phases.map(phase => ({

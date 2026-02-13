@@ -3,10 +3,11 @@ import devlogData from '../data/devlog.json';
 import PhaseCard from '../components/PhaseCard';
 import ProgressBar from '../components/ProgressBar';
 import { Layers } from 'lucide-react';
+import type { DevLog } from '../types';
 
 export default function Phases() {
   const { t } = useTranslation();
-  const { phases, totalSequences, completedSequences } = devlogData;
+  const { phases, totalSequences, completedSequences } = devlogData as DevLog;
 
   const completedPhases = phases.filter(p => p.status === 'completed').length;
   const inProgressPhases = phases.filter(p => p.status === 'in_progress').length;

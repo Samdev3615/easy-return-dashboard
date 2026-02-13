@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Clock } from 'lucide-react';
 import devlogData from '../data/devlog.json';
 import SessionCard from '../components/SessionCard';
+import type { DevLog } from '../types';
 
 export default function Sessions() {
   const { t, i18n } = useTranslation();
-  const { sessions, totalHours } = devlogData;
+  const { sessions, totalHours } = devlogData as DevLog;
 
   const chartData = [...sessions]
     .reverse()
