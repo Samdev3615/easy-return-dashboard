@@ -58,7 +58,7 @@ export default function Layout({ children }: LayoutProps) {
               <img
                 src="/syntech-full.svg"
                 alt="SynTech Studios"
-                className="h-8 hidden md:block"
+                className="h-10 hidden md:block"
               />
             </div>
           </div>
@@ -75,9 +75,9 @@ export default function Layout({ children }: LayoutProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center gap-4">
             <img
-              src="/syntech-logo.svg"
+              src="/syntech-full.svg"
               alt="SynTech Studios"
-              className="h-12"
+              className="h-14"
             />
             <div className="text-base text-gray-600 font-medium">
               © 2026 SynTech Studios
