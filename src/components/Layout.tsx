@@ -25,9 +25,11 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-600 rounded-lg flex items-center justify-center">
-                <Box className="w-6 h-6 text-white" />
-              </div>
+              <img
+                src="/syntech-logo.svg"
+                alt="SynTech Studios"
+                className="h-10"
+              />
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Easy Return</h1>
                 <p className="text-xs text-gray-500">Project Dashboard</p>
@@ -66,19 +68,16 @@ export default function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-6 mb-20 md:mb-0">
+      <footer className="bg-white border-t border-gray-200 py-8 mb-20 md:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              © 2026 Easy Return Dashboard
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>Managed by</span>
-              <img
-                src="/syntech-logo.svg"
-                alt="SynTech Studios"
-                className="h-6"
-              />
+          <div className="flex flex-col items-center justify-center gap-4">
+            <img
+              src="/syntech-logo.svg"
+              alt="SynTech Studios"
+              className="h-12"
+            />
+            <div className="text-base text-gray-600 font-medium">
+              © 2026 SynTech Studios
             </div>
           </div>
         </div>
