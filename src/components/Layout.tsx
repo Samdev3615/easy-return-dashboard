@@ -22,7 +22,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-600 rounded-lg flex items-center justify-center">
@@ -55,13 +55,11 @@ export default function Layout({ children }: LayoutProps) {
                 ))}
               </nav>
               <LanguageSwitcher />
-              <div className="w-10 h-10 hidden md:flex items-center">
-                <img
-                  src={`${import.meta.env.BASE_URL}syntech-full.svg`}
-                  alt="SynTech Studios"
-                  className="h-10 w-auto"
-                />
-              </div>
+              <img
+                src={`${import.meta.env.BASE_URL}syntech-full.svg`}
+                alt="SynTech Studios"
+                className="h-20 w-auto hidden md:block"
+              />
             </div>
           </div>
         </div>
