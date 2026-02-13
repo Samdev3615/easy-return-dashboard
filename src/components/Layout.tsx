@@ -23,8 +23,8 @@ export default function Layout({ children }: LayoutProps) {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
+            {/* Logo Easy Return - Gauche */}
+            <div className="flex items-center space-x-3 flex-shrink-0">
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-orange-600 rounded-lg flex items-center justify-center">
                 <Box className="w-6 h-6 text-white" />
               </div>
@@ -34,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
 
-            {/* Navigation Desktop */}
+            {/* Navigation Centre */}
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex space-x-1">
                 {navItems.map((item) => (
@@ -55,10 +55,14 @@ export default function Layout({ children }: LayoutProps) {
                 ))}
               </nav>
               <LanguageSwitcher />
+            </div>
+
+            {/* Logo SynTech - Droite */}
+            <div className="flex-shrink-0 hidden md:block">
               <img
                 src={`${import.meta.env.BASE_URL}syntech-full.svg`}
                 alt="SynTech Studios"
-                className="h-20 w-auto hidden md:block"
+                className="h-20 w-auto"
               />
             </div>
           </div>
