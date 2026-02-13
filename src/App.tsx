@@ -7,7 +7,7 @@ import Architecture from './pages/Architecture';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
