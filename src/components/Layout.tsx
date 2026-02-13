@@ -55,11 +55,13 @@ export default function Layout({ children }: LayoutProps) {
                 ))}
               </nav>
               <LanguageSwitcher />
-              <img
-                src="/syntech-full.svg"
-                alt="SynTech Studios"
-                className="h-10 hidden md:block"
-              />
+              <div className="w-10 h-10 hidden md:flex items-center">
+                <img
+                  src={`${import.meta.env.BASE_URL}syntech-full.svg`}
+                  alt="SynTech Studios"
+                  className="h-10 w-auto"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -75,9 +77,9 @@ export default function Layout({ children }: LayoutProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center gap-4">
             <img
-              src="/syntech-full.svg"
+              src={`${import.meta.env.BASE_URL}syntech-full.svg`}
               alt="SynTech Studios"
-              className="h-14"
+              className="h-16 w-auto"
             />
             <div className="text-base text-gray-600 font-medium">
               © 2026 SynTech Studios
