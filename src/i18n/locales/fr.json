@@ -110,7 +110,17 @@
   "common": {
     "hours": "h",
     "of": "sur",
-    "whatWasDone": "Ce qui a été fait"
+    "whatWasDone": "Ce qui a été fait",
+    "search": "Rechercher..."
+  },
+  "filters": {
+    "all": "Tout",
+    "completed": "Terminé",
+    "inProgress": "En cours",
+    "pending": "À venir",
+    "searchPhases": "Rechercher des phases...",
+    "searchSessions": "Rechercher des sessions...",
+    "noResults": "Aucun résultat trouvé"
   },
   "sessionHighlights": {
     "s26_1": "Service background location implémenté",

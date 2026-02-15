@@ -1,13 +1,17 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import { Clock } from 'lucide-react';
 import devlogData from '../data/devlog.json';
 import SessionCard from '../components/SessionCard';
+import SearchBar from '../components/SearchBar';
 import type { DevLog } from '../types';
 
 export default function Sessions() {
   const { t, i18n } = useTranslation();
   const { sessions, totalHours } = devlogData as DevLog;
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   const chartData = [...sessions]
     .reverse()
@@ -19,6 +23,14 @@ export default function Sessions() {
 
   const averageHours = (totalHours / sessions.length).toFixed(1);
   const longestSession = Math.max(...sessions.map(s => s.duration));
+
+  // Filtrage des sessions
+  const filteredSessions = sessions.filter(session => {
+    const searchLower = searchQuery.toLowerCase();
+    return session.title.toLowerCase().includes(searchLower) ||
+           session.sequences.some(seq => seq.toLowerCase().includes(searchLower)) ||
+           session.id.toString().includes(searchQuery);
+  });
 
   return (
     <div className="space-y-8">
@@ -84,12 +96,26 @@ export default function Sessions() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('sessions.allSessions')}</h2>
+        <div className="mb-6">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder={t('filters.searchSessions')}
+          />
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          {t('sessions.allSessions')} ({filteredSessions.length})
+        </h2>
         <div className="space-y-4">
-          {sessions.map((session) => (
+          {filteredSessions.map((session) => (
             <SessionCard key={session.id} session={session} />
           ))}
         </div>
+        {filteredSessions.length === 0 && (
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            {t('filters.noResults')}
+          </div>
+        )}
       </div>
     </div>
   );

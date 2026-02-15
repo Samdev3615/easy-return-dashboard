@@ -110,7 +110,17 @@
   "common": {
     "hours": "שע'",
     "of": "מתוך",
-    "whatWasDone": "מה בוצע"
+    "whatWasDone": "מה בוצע",
+    "search": "חיפוש..."
+  },
+  "filters": {
+    "all": "הכל",
+    "completed": "הושלם",
+    "inProgress": "בתהליך",
+    "pending": "בהמתנה",
+    "searchPhases": "חיפוש שלבים...",
+    "searchSessions": "חיפוש סשנים...",
+    "noResults": "לא נמצאו תוצאות"
   },
   "sessionHighlights": {
     "s26_1": "שירות מיקום ברקע מיושם",

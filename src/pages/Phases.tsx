@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import devlogData from '../data/devlog.json';
 import PhaseCard from '../components/PhaseCard';
 import ProgressBar from '../components/ProgressBar';
+import SearchBar from '../components/SearchBar';
+import FilterChips from '../components/FilterChips';
 import { Layers } from 'lucide-react';
 import type { DevLog } from '../types';
 
@@ -9,9 +12,27 @@ export default function Phases() {
   const { t } = useTranslation();
   const { phases, totalSequences, completedSequences } = devlogData as DevLog;
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+
   const completedPhases = phases.filter(p => p.status === 'completed').length;
   const inProgressPhases = phases.filter(p => p.status === 'in_progress').length;
   const pendingPhases = phases.filter(p => p.status === 'pending').length;
+
+  // Filtrage des phases
+  const filteredPhases = phases.filter(phase => {
+    const matchesSearch = phase.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         phase.sequences.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || phase.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const statusFilters = [
+    { id: 'all', label: t('filters.all'), active: statusFilter === 'all' },
+    { id: 'completed', label: t('filters.completed'), active: statusFilter === 'completed' },
+    { id: 'in_progress', label: t('filters.inProgress'), active: statusFilter === 'in_progress' },
+    { id: 'pending', label: t('filters.pending'), active: statusFilter === 'pending' },
+  ];
 
   return (
     <div className="space-y-8">
@@ -40,12 +61,34 @@ export default function Phases() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('phases.allPhases')}</h2>
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="flex-1">
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder={t('filters.searchPhases')}
+            />
+          </div>
+        </div>
+        <div className="mb-6">
+          <FilterChips
+            filters={statusFilters}
+            onChange={setStatusFilter}
+          />
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          {t('phases.allPhases')} ({filteredPhases.length})
+        </h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {phases.map((phase) => (
+          {filteredPhases.map((phase) => (
             <PhaseCard key={phase.id} phase={phase} />
           ))}
         </div>
+        {filteredPhases.length === 0 && (
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            {t('filters.noResults')}
+          </div>
+        )}
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
