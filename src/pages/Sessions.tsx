@@ -1,10 +1,13 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Clock, ArrowUpDown } from 'lucide-react';
 import devlogData from '../data/devlog.json';
 import SessionCard from '../components/SessionCard';
 import SearchBar from '../components/SearchBar';
+import SessionCardSkeleton from '../components/SessionCardSkeleton';
+import StatCardSkeleton from '../components/StatCardSkeleton';
+import Skeleton from '../components/Skeleton';
 import type { DevLog } from '../types';
 
 type SortField = 'date' | 'hours';
@@ -12,11 +15,17 @@ type SortOrder = 'asc' | 'desc';
 
 export default function Sessions() {
   const { t, i18n } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
   const { sessions, totalHours } = devlogData as DevLog;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>('date');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const chartData = [...sessions]
     .reverse()
@@ -62,6 +71,40 @@ export default function Sessions() {
       setSortOrder(field === 'date' ? 'desc' : 'asc');
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <div className="flex items-center space-x-3 mb-2">
+            <Skeleton className="w-8 h-8" />
+            <Skeleton className="h-9 w-64" />
+          </div>
+          <Skeleton className="h-5 w-96" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <Skeleton className="h-6 w-48 mb-6" />
+          <Skeleton className="h-[300px] w-full" />
+        </div>
+
+        <div>
+          <Skeleton className="h-11 w-full mb-6 rounded-lg" />
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SessionCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

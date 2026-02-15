@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import devlogData from '../data/devlog.json';
 import PhaseCard from '../components/PhaseCard';
 import ProgressBar from '../components/ProgressBar';
 import SearchBar from '../components/SearchBar';
 import FilterChips from '../components/FilterChips';
+import PhaseCardSkeleton from '../components/PhaseCardSkeleton';
+import Skeleton from '../components/Skeleton';
 import { Layers, ArrowUpDown } from 'lucide-react';
 import type { DevLog, Phase } from '../types';
 
@@ -13,12 +15,18 @@ type SortOrder = 'asc' | 'desc';
 
 export default function Phases() {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
   const { phases, totalSequences, completedSequences } = devlogData as DevLog;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const completedPhases = phases.filter(p => p.status === 'completed').length;
   const inProgressPhases = phases.filter(p => p.status === 'in_progress').length;
@@ -68,6 +76,47 @@ export default function Phases() {
     { id: 'in_progress', label: t('filters.inProgress'), active: statusFilter === 'in_progress' },
     { id: 'pending', label: t('filters.pending'), active: statusFilter === 'pending' },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <div className="flex items-center space-x-3 mb-2">
+            <Skeleton className="w-8 h-8" />
+            <Skeleton className="h-9 w-64" />
+          </div>
+          <Skeleton className="h-5 w-96" />
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <Skeleton className="h-7 w-40" />
+            <Skeleton className="h-8 w-16" />
+          </div>
+          <Skeleton className="h-3 w-full rounded-full mb-4" />
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-4 w-48" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+        </div>
+
+        <div>
+          <Skeleton className="h-11 w-full mb-6 rounded-lg" />
+          <div className="flex gap-2 mb-6">
+            <Skeleton className="h-8 w-20 rounded-full" />
+            <Skeleton className="h-8 w-24 rounded-full" />
+            <Skeleton className="h-8 w-28 rounded-full" />
+            <Skeleton className="h-8 w-20 rounded-full" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <PhaseCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

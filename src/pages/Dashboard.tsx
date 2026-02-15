@@ -1,5 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Target, Clock, TrendingUp, Calendar } from 'lucide-react';
 import devlogData from '../data/devlog.json';
@@ -7,6 +8,10 @@ import StatCard from '../components/StatCard';
 import PhaseCard from '../components/PhaseCard';
 import SessionCard from '../components/SessionCard';
 import ProgressBar from '../components/ProgressBar';
+import StatCardSkeleton from '../components/StatCardSkeleton';
+import PhaseCardSkeleton from '../components/PhaseCardSkeleton';
+import SessionCardSkeleton from '../components/SessionCardSkeleton';
+import Skeleton from '../components/Skeleton';
 import type { DevLog } from '../types';
 
 const container = {
@@ -26,7 +31,14 @@ const item = {
 
 export default function Dashboard() {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
   const { totalSequences, completedSequences, totalHours, lastUpdate, phases, sessions } = devlogData as DevLog;
+
+  // Simulate loading for demonstration
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Données pour le graphique des heures par phase
   const phaseChartData = phases.map(phase => ({
@@ -77,6 +89,68 @@ export default function Dashboard() {
       day: 'numeric'
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        {/* Header Skeleton */}
+        <div>
+          <Skeleton className="h-9 w-64 mb-2" />
+          <Skeleton className="h-5 w-96" />
+        </div>
+
+        {/* Stats Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+          <StatCardSkeleton />
+        </div>
+
+        {/* Charts Skeleton */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <Skeleton className="h-6 w-48 mb-6" />
+          <Skeleton className="h-[300px] w-full" />
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <Skeleton className="h-6 w-48 mb-6" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Skeleton className="h-24 w-full rounded-lg" />
+            <Skeleton className="h-24 w-full rounded-lg" />
+            <Skeleton className="h-24 w-full rounded-lg" />
+          </div>
+        </div>
+
+        {/* Phases Skeleton */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <Skeleton className="h-7 w-40" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <PhaseCardSkeleton />
+            <PhaseCardSkeleton />
+            <PhaseCardSkeleton />
+            <PhaseCardSkeleton />
+          </div>
+        </div>
+
+        {/* Sessions Skeleton */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <Skeleton className="h-7 w-40" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+          <div className="space-y-4">
+            <SessionCardSkeleton />
+            <SessionCardSkeleton />
+            <SessionCardSkeleton />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
