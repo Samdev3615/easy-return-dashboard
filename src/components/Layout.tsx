@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Home, Layers, Clock, Box } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { ThemeToggle } from './ThemeToggle';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,9 +19,9 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo Easy Return - Gauche */}
@@ -29,8 +30,8 @@ export default function Layout({ children }: LayoutProps) {
                 <Box className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Easy Return</h1>
-                <p className="text-xs text-gray-500">Project Dashboard</p>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">Easy Return</h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Project Dashboard</p>
               </div>
             </div>
 
@@ -45,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
                       `flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isActive
                           ? 'bg-primary/10 text-primary'
-                          : 'text-gray-600 hover:bg-gray-100'
+                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`
                     }
                   >
@@ -54,6 +55,7 @@ export default function Layout({ children }: LayoutProps) {
                   </NavLink>
                 ))}
               </nav>
+              <ThemeToggle />
               <LanguageSwitcher />
             </div>
 
@@ -75,7 +77,7 @@ export default function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8 mb-20 md:mb-0">
+      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mb-20 md:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center gap-4">
             <img
@@ -83,7 +85,7 @@ export default function Layout({ children }: LayoutProps) {
               alt="SynTech Studios"
               className="h-16 w-auto"
             />
-            <div className="text-base text-gray-600 font-medium">
+            <div className="text-base text-gray-600 dark:text-gray-400 font-medium">
               © 2026 SynTech Studios
             </div>
           </div>
@@ -91,7 +93,7 @@ export default function Layout({ children }: LayoutProps) {
       </footer>
 
       {/* Mobile Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50">
         <div className="grid grid-cols-4 gap-1 p-2">
           {navItems.map((item) => (
             <NavLink
@@ -101,7 +103,7 @@ export default function Layout({ children }: LayoutProps) {
                 `flex flex-col items-center space-y-1 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                   isActive
                     ? 'bg-primary/10 text-primary'
-                    : 'text-gray-600'
+                    : 'text-gray-600 dark:text-gray-300'
                 }`
               }
             >

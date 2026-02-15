@@ -25,30 +25,30 @@ export default function Sessions() {
       <div>
         <div className="flex items-center space-x-3 mb-2">
           <Clock className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold text-gray-900">{t('sessions.title')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('sessions.title')}</h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           {t('sessions.subtitle', { count: sessions.length, hours: totalHours, avg: averageHours })}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <div className="text-sm font-medium text-gray-600 mb-1">{t('sessions.totalHours')}</div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{t('sessions.totalHours')}</div>
           <div className="text-3xl font-bold text-primary">{totalHours}h</div>
         </div>
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <div className="text-sm font-medium text-gray-600 mb-1">{t('sessions.avgDuration')}</div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{t('sessions.avgDuration')}</div>
           <div className="text-3xl font-bold text-info">{averageHours}h</div>
         </div>
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <div className="text-sm font-medium text-gray-600 mb-1">{t('sessions.longestSession')}</div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+          <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{t('sessions.longestSession')}</div>
           <div className="text-3xl font-bold text-success">{longestSession}h</div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('sessions.evolution')}</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{t('sessions.evolution')}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -84,7 +84,7 @@ export default function Sessions() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('sessions.allSessions')}</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('sessions.allSessions')}</h2>
         <div className="space-y-4">
           {sessions.map((session) => (
             <SessionCard key={session.id} session={session} />

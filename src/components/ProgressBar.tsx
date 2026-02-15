@@ -30,14 +30,14 @@ export default function ProgressBar({
 
   return (
     <div className={className}>
-      <div className={`w-full bg-gray-200 rounded-full overflow-hidden ${heights[size]}`}>
+      <div className={`w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden ${heights[size]}`}>
         <div
           className={`${heights[size]} ${getColor()} transition-all duration-500 ease-out rounded-full`}
           style={{ width: `${percentage}%` }}
         />
       </div>
       {showPercentage && (
-        <div className="flex justify-between items-center mt-1 text-xs text-gray-600">
+        <div className="flex justify-between items-center mt-1 text-xs text-gray-600 dark:text-gray-400">
           <span>{value}/{max}</span>
           <span className="font-semibold">{percentage}%</span>
         </div>

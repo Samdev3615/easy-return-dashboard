@@ -32,14 +32,14 @@ export default function PhaseCard({ phase }: PhaseCardProps) {
   };
 
   return (
-    <div className={`bg-white rounded-xl border-l-4 ${getStatusColor()} p-6 shadow-sm hover:shadow-md transition-shadow`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-xl border-l-4 ${getStatusColor()} p-6 shadow-sm hover:shadow-md transition-shadow`}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-1">
             <span className="text-2xl">{phase.emoji}</span>
-            <h3 className="text-lg font-semibold text-gray-900">{phase.name}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{phase.name}</h3>
           </div>
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
+          <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
             <span className="font-mono">{phase.sequences}</span>
             <span>•</span>
             <span>{phase.hours}h</span>
@@ -51,7 +51,7 @@ export default function PhaseCard({ phase }: PhaseCardProps) {
       <ProgressBar value={phase.completed} max={phase.total} />
 
       <div className="mt-4 flex items-center justify-between text-sm">
-        <span className="text-gray-600">
+        <span className="text-gray-600 dark:text-gray-400">
           {phase.completed} / {phase.total} {t('dashboard.sequences')}
         </span>
         <span className={`font-medium ${

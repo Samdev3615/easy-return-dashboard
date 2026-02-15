@@ -35,8 +35,8 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('dashboard.title')}</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('dashboard.title')}</h1>
+        <p className="text-gray-600 dark:text-gray-400">
           {t('dashboard.subtitle', { date: formatDate(lastUpdate) })}
         </p>
       </div>
@@ -74,8 +74,8 @@ export default function Dashboard() {
       </div>
 
       {/* Progression globale */}
-      <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.projectProgress')}</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('dashboard.projectProgress')}</h2>
         <ProgressBar
           value={completedSequences}
           max={totalSequences}
@@ -84,8 +84,8 @@ export default function Dashboard() {
       </div>
 
       {/* Graphique heures par phase */}
-      <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('dashboard.hoursByPhase')}</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{t('dashboard.hoursByPhase')}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={phaseChartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -121,10 +121,10 @@ export default function Dashboard() {
       {/* Phases */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">{t('dashboard.projectPhases')}</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.projectPhases')}</h2>
           <a
             href="/phases"
-            className="text-primary hover:text-orange-700 text-sm font-medium"
+            className="text-primary hover:text-orange-700 dark:hover:text-orange-600 text-sm font-medium"
           >
             {t('dashboard.viewAll')} →
           </a>
@@ -139,10 +139,10 @@ export default function Dashboard() {
       {/* Sessions récentes */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">{t('dashboard.recentSessions')}</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.recentSessions')}</h2>
           <a
             href="/sessions"
-            className="text-primary hover:text-orange-700 text-sm font-medium"
+            className="text-primary hover:text-orange-700 dark:hover:text-orange-600 text-sm font-medium"
           >
             {t('dashboard.viewAll')} →
           </a>

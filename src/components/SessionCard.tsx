@@ -18,11 +18,11 @@ export default function SessionCard({ session }: SessionCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
-            <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">
+          <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+            <span className="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
               {t('sessions.session')} #{session.id}
             </span>
             <span className="flex items-center space-x-1">
@@ -30,7 +30,7 @@ export default function SessionCard({ session }: SessionCardProps) {
               <span>{formatDate(session.date)}</span>
             </span>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             {session.title}
           </h3>
         </div>
@@ -57,9 +57,9 @@ export default function SessionCard({ session }: SessionCardProps) {
       )}
 
       {/* Section "Ce qui a été fait" */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100">
-        <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
-          <span className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-2">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+          <span className="w-6 h-6 bg-blue-500 dark:bg-blue-600 rounded-full flex items-center justify-center text-white text-xs mr-2">
             ✓
           </span>
           {t('common.whatWasDone')}
@@ -67,8 +67,8 @@ export default function SessionCard({ session }: SessionCardProps) {
         <div className="space-y-2">
           {session.highlights.map((highlight, index) => (
             <div key={index} className="flex items-start space-x-2">
-              <span className="text-blue-500 mt-0.5 font-bold">→</span>
-              <span className="text-sm text-gray-700 leading-relaxed">{t(`sessionHighlights.${highlight}`)}</span>
+              <span className="text-blue-500 dark:text-blue-400 mt-0.5 font-bold">→</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{t(`sessionHighlights.${highlight}`)}</span>
             </div>
           ))}
         </div>
