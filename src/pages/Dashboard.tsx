@@ -1,6 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Target, Clock, TrendingUp, Calendar } from 'lucide-react';
 import devlogData from '../data/devlog.json';
@@ -344,12 +345,12 @@ export default function Dashboard() {
       <motion.div variants={item}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.projectPhases')}</h2>
-          <a
-            href="/phases"
+          <Link
+            to="/phases"
             className="text-primary hover:text-orange-700 dark:hover:text-orange-600 text-sm font-medium"
           >
             {t('dashboard.viewAll')} →
-          </a>
+          </Link>
         </div>
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
@@ -367,12 +368,12 @@ export default function Dashboard() {
       <motion.div variants={item}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.recentSessions')}</h2>
-          <a
-            href="/sessions"
+          <Link
+            to="/sessions"
             className="text-primary hover:text-orange-700 dark:hover:text-orange-600 text-sm font-medium"
           >
             {t('dashboard.viewAll')} →
-          </a>
+          </Link>
         </div>
         <motion.div
           className="grid grid-cols-1 gap-4"
