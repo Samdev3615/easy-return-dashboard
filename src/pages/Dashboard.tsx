@@ -67,7 +67,6 @@ export default function Dashboard() {
   // Statistiques avancées
   const avgTimePerSequence = completedSequences > 0 ? (totalHours / completedSequences).toFixed(2) : '0';
   const remainingSequences = totalSequences - completedSequences;
-  const estimatedRemainingHours = remainingSequences * parseFloat(avgTimePerSequence);
 
   // Calcul de la vitesse (basé sur les dates des sessions)
   const firstSession = sessions[sessions.length - 1];

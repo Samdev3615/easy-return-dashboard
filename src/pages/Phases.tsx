@@ -8,7 +8,7 @@ import FilterChips from '../components/FilterChips';
 import PhaseCardSkeleton from '../components/PhaseCardSkeleton';
 import Skeleton from '../components/Skeleton';
 import { Layers, ArrowUpDown } from 'lucide-react';
-import type { DevLog, Phase } from '../types';
+import type { DevLog } from '../types';
 
 type SortField = 'name' | 'hours' | 'progress';
 type SortOrder = 'asc' | 'desc';
