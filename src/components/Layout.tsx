@@ -54,9 +54,9 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
 
-            {/* Navigation Centre */}
-            <div className="flex items-center space-x-4">
-              <nav className="hidden md:flex space-x-1">
+            {/* Navigation Centre - Desktop only */}
+            <div className="hidden md:flex items-center space-x-4">
+              <nav className="flex space-x-1">
                 {navItems.map((item) => (
                   <NavLink
                     key={item.to}
@@ -76,16 +76,16 @@ export default function Layout({ children }: LayoutProps) {
               </nav>
               <ThemeToggle />
               <LanguageSwitcher />
-
-              {/* Burger Menu Button - Mobile */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
             </div>
+
+            {/* Burger Menu Button - Mobile only */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
             {/* Logo SynTech - Droite */}
             <div className="flex-shrink-0 hidden md:block">
