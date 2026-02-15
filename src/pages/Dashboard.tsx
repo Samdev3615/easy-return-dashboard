@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { Target, Clock, TrendingUp, Calendar } from 'lucide-react';
 import devlogData from '../data/devlog.json';
@@ -18,10 +18,41 @@ export default function Dashboard() {
     heures: phase.hours
   }));
 
+  // Données pour le graphique d'évolution cumulée
+  const evolutionData = [...sessions]
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .reduce((acc, session, index) => {
+      const prevTotal = index > 0 ? acc[index - 1].total : 0;
+      acc.push({
+        date: new Date(session.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+        total: prevTotal + session.duration,
+        session: session.duration
+      });
+      return acc;
+    }, [] as Array<{ date: string; total: number; session: number }>);
+
   // Statistiques calculées
   const completionPercentage = Math.round((completedSequences / totalSequences) * 100);
   const inProgressPhases = phases.filter(p => p.status === 'in_progress').length;
   const completedPhases = phases.filter(p => p.status === 'completed').length;
+
+  // Statistiques avancées
+  const avgTimePerSequence = completedSequences > 0 ? (totalHours / completedSequences).toFixed(2) : '0';
+  const remainingSequences = totalSequences - completedSequences;
+  const estimatedRemainingHours = remainingSequences * parseFloat(avgTimePerSequence);
+
+  // Calcul de la vitesse (basé sur les dates des sessions)
+  const firstSession = sessions[sessions.length - 1];
+  const lastSession = sessions[0];
+  const daysBetween = firstSession && lastSession ?
+    Math.max(1, Math.ceil((new Date(lastSession.date).getTime() - new Date(firstSession.date).getTime()) / (1000 * 60 * 60 * 24))) : 1;
+  const sequencesPerWeek = ((completedSequences / daysBetween) * 7).toFixed(1);
+
+  // Estimation de fin
+  const weeksRemaining = remainingSequences > 0 && parseFloat(sequencesPerWeek) > 0 ?
+    Math.ceil(remainingSequences / parseFloat(sequencesPerWeek)) : 0;
+  const estimatedEndDate = new Date();
+  estimatedEndDate.setDate(estimatedEndDate.getDate() + (weeksRemaining * 7));
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString(undefined, {
@@ -71,6 +102,76 @@ export default function Dashboard() {
           icon={Calendar}
           color="success"
         />
+      </div>
+
+      {/* Graphique d'évolution cumulée */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{t('dashboard.hoursEvolution')}</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart data={evolutionData}>
+            <defs>
+              <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#FF6B00" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#FF6B00" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" className="dark:stroke-gray-700" />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: '#6B7280', fontSize: 12 }}
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fill: '#6B7280', fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: '#fff',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }}
+              labelStyle={{ color: '#374151', fontWeight: 600 }}
+            />
+            <Area
+              type="monotone"
+              dataKey="total"
+              stroke="#FF6B00"
+              strokeWidth={2}
+              fill="url(#colorTotal)"
+              name={t('dashboard.cumulativeHours')}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Statistiques avancées */}
+      <div className="bg-gradient-to-br from-primary/5 to-orange-50 dark:from-primary/10 dark:to-orange-900/10 rounded-xl p-6 shadow-sm border-2 border-primary/20 dark:border-primary/30">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+          <TrendingUp className="w-6 h-6 text-primary mr-2" />
+          {t('dashboard.advancedStats')}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{t('dashboard.avgTimePerSequence')}</div>
+            <div className="text-3xl font-bold text-info mb-1">{avgTimePerSequence}h</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.basedOnCompleted')}</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{t('dashboard.progressSpeed')}</div>
+            <div className="text-3xl font-bold text-success mb-1">{sequencesPerWeek}</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.sequencesPerWeek')}</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{t('dashboard.estimatedCompletion')}</div>
+            <div className="text-3xl font-bold text-warning mb-1">{weeksRemaining}</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {weeksRemaining > 0 ? `~${formatDate(estimatedEndDate.toISOString())}` : t('dashboard.completed')}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Progression globale */}
