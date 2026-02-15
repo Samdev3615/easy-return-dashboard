@@ -124,7 +124,12 @@
     "pending": "Pending",
     "searchPhases": "Search phases...",
     "searchSessions": "Search sessions...",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "sortBy": "Sort by",
+    "name": "Name",
+    "hours": "Hours",
+    "progress": "Progress",
+    "date": "Date"
   },
   "sessionHighlights": {
     "s26_1": "Background location service implemented",

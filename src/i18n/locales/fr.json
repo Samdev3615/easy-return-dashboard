@@ -124,7 +124,12 @@
     "pending": "À venir",
     "searchPhases": "Rechercher des phases...",
     "searchSessions": "Rechercher des sessions...",
-    "noResults": "Aucun résultat trouvé"
+    "noResults": "Aucun résultat trouvé",
+    "sortBy": "Trier par",
+    "name": "Nom",
+    "hours": "Heures",
+    "progress": "Progression",
+    "date": "Date"
   },
   "sessionHighlights": {
     "s26_1": "Service background location implémenté",

@@ -1,17 +1,22 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import { Clock } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Clock, ArrowUpDown } from 'lucide-react';
 import devlogData from '../data/devlog.json';
 import SessionCard from '../components/SessionCard';
 import SearchBar from '../components/SearchBar';
 import type { DevLog } from '../types';
+
+type SortField = 'date' | 'hours';
+type SortOrder = 'asc' | 'desc';
 
 export default function Sessions() {
   const { t, i18n } = useTranslation();
   const { sessions, totalHours } = devlogData as DevLog;
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortField, setSortField] = useState<SortField>('date');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   const chartData = [...sessions]
     .reverse()
@@ -24,13 +29,39 @@ export default function Sessions() {
   const averageHours = (totalHours / sessions.length).toFixed(1);
   const longestSession = Math.max(...sessions.map(s => s.duration));
 
-  // Filtrage des sessions
-  const filteredSessions = sessions.filter(session => {
-    const searchLower = searchQuery.toLowerCase();
-    return session.title.toLowerCase().includes(searchLower) ||
-           session.sequences.some(seq => seq.toLowerCase().includes(searchLower)) ||
-           session.id.toString().includes(searchQuery);
-  });
+  // Filtrage et tri des sessions
+  const filteredSessions = useMemo(() => {
+    let filtered = sessions.filter(session => {
+      const searchLower = searchQuery.toLowerCase();
+      return session.title.toLowerCase().includes(searchLower) ||
+             session.sequences.some(seq => seq.toLowerCase().includes(searchLower)) ||
+             session.id.toString().includes(searchQuery);
+    });
+
+    // Tri
+    filtered.sort((a, b) => {
+      let comparison = 0;
+
+      if (sortField === 'date') {
+        comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
+      } else if (sortField === 'hours') {
+        comparison = a.duration - b.duration;
+      }
+
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
+    return filtered;
+  }, [sessions, searchQuery, sortField, sortOrder]);
+
+  const toggleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder(field === 'date' ? 'desc' : 'asc');
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -103,9 +134,36 @@ export default function Sessions() {
             placeholder={t('filters.searchSessions')}
           />
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          {t('sessions.allSessions')} ({filteredSessions.length})
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            {t('sessions.allSessions')} ({filteredSessions.length})
+          </h2>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">{t('filters.sortBy')}:</span>
+            <button
+              onClick={() => toggleSort('date')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortField === 'date'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              {t('filters.date')}
+              {sortField === 'date' && <ArrowUpDown className="w-3 h-3" />}
+            </button>
+            <button
+              onClick={() => toggleSort('hours')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortField === 'hours'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              {t('filters.hours')}
+              {sortField === 'hours' && <ArrowUpDown className="w-3 h-3" />}
+            </button>
+          </div>
+        </div>
         <div className="space-y-4">
           {filteredSessions.map((session) => (
             <SessionCard key={session.id} session={session} />

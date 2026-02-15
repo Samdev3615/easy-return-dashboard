@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import devlogData from '../data/devlog.json';
 import PhaseCard from '../components/PhaseCard';
 import ProgressBar from '../components/ProgressBar';
 import SearchBar from '../components/SearchBar';
 import FilterChips from '../components/FilterChips';
-import { Layers } from 'lucide-react';
-import type { DevLog } from '../types';
+import { Layers, ArrowUpDown } from 'lucide-react';
+import type { DevLog, Phase } from '../types';
+
+type SortField = 'name' | 'hours' | 'progress';
+type SortOrder = 'asc' | 'desc';
 
 export default function Phases() {
   const { t } = useTranslation();
@@ -14,18 +17,50 @@ export default function Phases() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [sortField, setSortField] = useState<SortField>('name');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   const completedPhases = phases.filter(p => p.status === 'completed').length;
   const inProgressPhases = phases.filter(p => p.status === 'in_progress').length;
   const pendingPhases = phases.filter(p => p.status === 'pending').length;
 
-  // Filtrage des phases
-  const filteredPhases = phases.filter(phase => {
-    const matchesSearch = phase.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         phase.sequences.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || phase.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+  // Filtrage et tri des phases
+  const filteredPhases = useMemo(() => {
+    let filtered = phases.filter(phase => {
+      const matchesSearch = phase.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           phase.sequences.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesStatus = statusFilter === 'all' || phase.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+
+    // Tri
+    filtered.sort((a, b) => {
+      let comparison = 0;
+
+      if (sortField === 'name') {
+        comparison = a.name.localeCompare(b.name);
+      } else if (sortField === 'hours') {
+        comparison = a.hours - b.hours;
+      } else if (sortField === 'progress') {
+        const progressA = (a.completed / a.total) * 100;
+        const progressB = (b.completed / b.total) * 100;
+        comparison = progressA - progressB;
+      }
+
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
+    return filtered;
+  }, [phases, searchQuery, statusFilter, sortField, sortOrder]);
+
+  const toggleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  };
 
   const statusFilters = [
     { id: 'all', label: t('filters.all'), active: statusFilter === 'all' },
@@ -76,9 +111,47 @@ export default function Phases() {
             onChange={setStatusFilter}
           />
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          {t('phases.allPhases')} ({filteredPhases.length})
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            {t('phases.allPhases')} ({filteredPhases.length})
+          </h2>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">{t('filters.sortBy')}:</span>
+            <button
+              onClick={() => toggleSort('name')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortField === 'name'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              {t('filters.name')}
+              {sortField === 'name' && <ArrowUpDown className="w-3 h-3" />}
+            </button>
+            <button
+              onClick={() => toggleSort('hours')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortField === 'hours'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              {t('filters.hours')}
+              {sortField === 'hours' && <ArrowUpDown className="w-3 h-3" />}
+            </button>
+            <button
+              onClick={() => toggleSort('progress')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortField === 'progress'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              {t('filters.progress')}
+              {sortField === 'progress' && <ArrowUpDown className="w-3 h-3" />}
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredPhases.map((phase) => (
             <PhaseCard key={phase.id} phase={phase} />

@@ -124,7 +124,12 @@
     "pending": "בהמתנה",
     "searchPhases": "חיפוש שלבים...",
     "searchSessions": "חיפוש סשנים...",
-    "noResults": "לא נמצאו תוצאות"
+    "noResults": "לא נמצאו תוצאות",
+    "sortBy": "מיון לפי",
+    "name": "שם",
+    "hours": "שעות",
+    "progress": "התקדמות",
+    "date": "תאריך"
   },
   "sessionHighlights": {
     "s26_1": "שירות מיקום ברקע מיושם",
