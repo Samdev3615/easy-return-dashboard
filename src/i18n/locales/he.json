@@ -29,7 +29,11 @@
     "weeksRemaining": "שבועות נותרו",
     "projectPhases": "שלבי הפרויקט",
     "recentSessions": "סשנים אחרונים",
-    "viewAll": "הצג הכל"
+    "viewAll": "הצג הכל",
+    "tooltipProgress": "אחוז רצפים שהושלמו מתוך הסכום הכולל",
+    "tooltipHours": "סך כל השעות שהושקעו בפרויקט",
+    "tooltipPhases": "מספר השלבים הנמצאים כעת בפיתוח",
+    "tooltipSessions": "מספר סך כל סשני הפיתוח"
   },
   "phases": {
     "title": "שלבי הפרויקט",

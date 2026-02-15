@@ -29,7 +29,11 @@
     "weeksRemaining": "weeks remaining",
     "projectPhases": "Project Phases",
     "recentSessions": "Recent Sessions",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "tooltipProgress": "Percentage of completed sequences out of total",
+    "tooltipHours": "Total hours invested in the project",
+    "tooltipPhases": "Number of phases currently in development",
+    "tooltipSessions": "Total number of development sessions"
   },
   "phases": {
     "title": "Project Phases",

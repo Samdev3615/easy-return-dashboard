@@ -1,3 +1,5 @@
+import Tooltip from './Tooltip';
+
 interface StatCardProps {
   title: string;
   value: string | number;
@@ -8,6 +10,7 @@ interface StatCardProps {
     value: number;
     isPositive: boolean;
   };
+  tooltip?: string;
 }
 
 export default function StatCard({
@@ -16,7 +19,8 @@ export default function StatCard({
   subtitle,
   icon: Icon,
   color = 'primary',
-  trend
+  trend,
+  tooltip
 }: StatCardProps) {
   const colorClasses = {
     primary: 'bg-primary/10 text-primary',
@@ -43,9 +47,17 @@ export default function StatCard({
             </div>
           )}
         </div>
-        <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
-          <Icon className="w-6 h-6" />
-        </div>
+        {tooltip ? (
+          <Tooltip content={tooltip}>
+            <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
+              <Icon className="w-6 h-6" />
+            </div>
+          </Tooltip>
+        ) : (
+          <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
+            <Icon className="w-6 h-6" />
+          </div>
+        )}
       </div>
     </div>
   );

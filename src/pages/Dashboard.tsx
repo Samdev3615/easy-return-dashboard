@@ -105,6 +105,7 @@ export default function Dashboard() {
             subtitle={`${completedSequences}/${totalSequences} ${t('dashboard.sequences')}`}
             icon={Target}
             color="primary"
+            tooltip={t('dashboard.tooltipProgress')}
           />
         </motion.div>
         <motion.div variants={item}>
@@ -114,6 +115,7 @@ export default function Dashboard() {
             subtitle={t('dashboard.devTime')}
             icon={Clock}
             color="info"
+            tooltip={t('dashboard.tooltipHours')}
           />
         </motion.div>
         <motion.div variants={item}>
@@ -123,6 +125,7 @@ export default function Dashboard() {
             subtitle={`${completedPhases} ${t('dashboard.completed')}`}
             icon={TrendingUp}
             color="warning"
+            tooltip={t('dashboard.tooltipPhases')}
           />
         </motion.div>
         <motion.div variants={item}>
@@ -132,6 +135,7 @@ export default function Dashboard() {
             subtitle={t('dashboard.devSessions')}
             icon={Calendar}
             color="success"
+            tooltip={t('dashboard.tooltipSessions')}
           />
         </motion.div>
       </motion.div>
