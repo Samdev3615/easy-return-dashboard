@@ -18,7 +18,7 @@ export default function SessionCard({ session }: SessionCardProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-700 cursor-pointer">
       <div className="flex items-start justify-between mb-4">
         <div>
           <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-2">

@@ -1,5 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { Target, Clock, TrendingUp, Calendar } from 'lucide-react';
 import devlogData from '../data/devlog.json';
 import StatCard from '../components/StatCard';
@@ -7,6 +8,21 @@ import PhaseCard from '../components/PhaseCard';
 import SessionCard from '../components/SessionCard';
 import ProgressBar from '../components/ProgressBar';
 import type { DevLog } from '../types';
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -63,49 +79,68 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      className="space-y-8"
+      initial="hidden"
+      animate="show"
+      variants={container}
+    >
       {/* Header */}
-      <div>
+      <motion.div variants={item}>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('dashboard.title')}</h1>
         <p className="text-gray-600 dark:text-gray-400">
           {t('dashboard.subtitle', { date: formatDate(lastUpdate) })}
         </p>
-      </div>
+      </motion.div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title={t('dashboard.globalProgress')}
-          value={`${completionPercentage}%`}
-          subtitle={`${completedSequences}/${totalSequences} ${t('dashboard.sequences')}`}
-          icon={Target}
-          color="primary"
-        />
-        <StatCard
-          title={t('dashboard.totalHours')}
-          value={totalHours}
-          subtitle={t('dashboard.devTime')}
-          icon={Clock}
-          color="info"
-        />
-        <StatCard
-          title={t('dashboard.activePhases')}
-          value={inProgressPhases}
-          subtitle={`${completedPhases} ${t('dashboard.completed')}`}
-          icon={TrendingUp}
-          color="warning"
-        />
-        <StatCard
-          title={t('dashboard.sessions')}
-          value={sessions.length}
-          subtitle={t('dashboard.devSessions')}
-          icon={Calendar}
-          color="success"
-        />
-      </div>
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        variants={container}
+      >
+        <motion.div variants={item}>
+          <StatCard
+            title={t('dashboard.globalProgress')}
+            value={`${completionPercentage}%`}
+            subtitle={`${completedSequences}/${totalSequences} ${t('dashboard.sequences')}`}
+            icon={Target}
+            color="primary"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <StatCard
+            title={t('dashboard.totalHours')}
+            value={totalHours}
+            subtitle={t('dashboard.devTime')}
+            icon={Clock}
+            color="info"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <StatCard
+            title={t('dashboard.activePhases')}
+            value={inProgressPhases}
+            subtitle={`${completedPhases} ${t('dashboard.completed')}`}
+            icon={TrendingUp}
+            color="warning"
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <StatCard
+            title={t('dashboard.sessions')}
+            value={sessions.length}
+            subtitle={t('dashboard.devSessions')}
+            icon={Calendar}
+            color="success"
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Graphique d'évolution cumulée */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+      <motion.div
+        className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm"
+        variants={item}
+      >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{t('dashboard.hoursEvolution')}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={evolutionData}>
@@ -145,10 +180,13 @@ export default function Dashboard() {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </motion.div>
 
       {/* Statistiques avancées */}
-      <div className="bg-gradient-to-br from-primary/5 to-orange-50 dark:from-primary/10 dark:to-orange-900/10 rounded-xl p-6 shadow-sm border-2 border-primary/20 dark:border-primary/30">
+      <motion.div
+        className="bg-gradient-to-br from-primary/5 to-orange-50 dark:from-primary/10 dark:to-orange-900/10 rounded-xl p-6 shadow-sm border-2 border-primary/20 dark:border-primary/30"
+        variants={item}
+      >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
           <TrendingUp className="w-6 h-6 text-primary mr-2" />
           {t('dashboard.advancedStats')}
@@ -172,20 +210,26 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Progression globale */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+      <motion.div
+        className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm"
+        variants={item}
+      >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{t('dashboard.projectProgress')}</h2>
         <ProgressBar
           value={completedSequences}
           max={totalSequences}
           size="lg"
         />
-      </div>
+      </motion.div>
 
       {/* Graphique heures par phase */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+      <motion.div
+        className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm"
+        variants={item}
+      >
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">{t('dashboard.hoursByPhase')}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={phaseChartData}>
@@ -217,10 +261,10 @@ export default function Dashboard() {
             />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </motion.div>
 
       {/* Phases */}
-      <div>
+      <motion.div variants={item}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.projectPhases')}</h2>
           <a
@@ -230,15 +274,20 @@ export default function Dashboard() {
             {t('dashboard.viewAll')} →
           </a>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+          variants={container}
+        >
           {phases.slice(0, 4).map((phase) => (
-            <PhaseCard key={phase.id} phase={phase} />
+            <motion.div key={phase.id} variants={item}>
+              <PhaseCard phase={phase} />
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Sessions récentes */}
-      <div>
+      <motion.div variants={item}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{t('dashboard.recentSessions')}</h2>
           <a
@@ -248,12 +297,17 @@ export default function Dashboard() {
             {t('dashboard.viewAll')} →
           </a>
         </div>
-        <div className="grid grid-cols-1 gap-4">
+        <motion.div
+          className="grid grid-cols-1 gap-4"
+          variants={container}
+        >
           {sessions.slice(0, 3).map((session) => (
-            <SessionCard key={session.id} session={session} />
+            <motion.div key={session.id} variants={item}>
+              <SessionCard session={session} />
+            </motion.div>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

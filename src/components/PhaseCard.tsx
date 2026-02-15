@@ -32,7 +32,7 @@ export default function PhaseCard({ phase }: PhaseCardProps) {
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-xl border-l-4 ${getStatusColor()} p-6 shadow-sm hover:shadow-md transition-shadow`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-xl border-l-4 ${getStatusColor()} p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer`}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center space-x-2 mb-1">
