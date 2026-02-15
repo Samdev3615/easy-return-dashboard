@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Session } from '../types';
 import { Calendar, Clock, CheckSquare } from 'lucide-react';
+import NewBadge from './NewBadge';
 
 interface SessionCardProps {
   session: Session;
@@ -17,6 +18,13 @@ export default function SessionCard({ session }: SessionCardProps) {
     });
   };
 
+  const isNew = () => {
+    const sessionDate = new Date(session.date);
+    const now = new Date();
+    const diffDays = Math.floor((now.getTime() - sessionDate.getTime()) / (1000 * 60 * 60 * 24));
+    return diffDays <= 7;
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-700 cursor-pointer">
       <div className="flex items-start justify-between mb-4">
@@ -29,6 +37,7 @@ export default function SessionCard({ session }: SessionCardProps) {
               <Calendar className="w-3.5 h-3.5" />
               <span>{formatDate(session.date)}</span>
             </span>
+            {isNew() && <NewBadge />}
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             {session.title}

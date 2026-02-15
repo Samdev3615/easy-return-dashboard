@@ -5,6 +5,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LanguageSwitcher from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
+import Toast from './Toast';
+import NewBadge from './NewBadge';
+import { useUpdateChecker } from '../hooks/useUpdateChecker';
+import devlogData from '../data/devlog.json';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,6 +17,15 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { hasUpdate, refresh, dismissUpdate } = useUpdateChecker();
+
+  // Check if last update is recent (< 7 days)
+  const isRecentUpdate = () => {
+    const lastUpdate = new Date(devlogData.lastUpdate);
+    const now = new Date();
+    const diffDays = Math.floor((now.getTime() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24));
+    return diffDays <= 7;
+  };
 
   const navItems = [
     { to: '/', label: t('nav.dashboard'), icon: Home },
@@ -33,7 +46,10 @@ export default function Layout({ children }: LayoutProps) {
                 <Box className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">Easy Return</h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">Easy Return</h1>
+                  {isRecentUpdate() && <NewBadge />}
+                </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Project Dashboard</p>
               </div>
             </div>
@@ -195,6 +211,14 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </footer>
+
+      {/* Update Notification Toast */}
+      <Toast
+        isVisible={hasUpdate}
+        onClose={dismissUpdate}
+        onRefresh={refresh}
+        message={t('common.updateAvailable')}
+      />
 
     </div>
   );

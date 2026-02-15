@@ -115,7 +115,8 @@
     "hours": "h",
     "of": "sur",
     "whatWasDone": "Ce qui a été fait",
-    "search": "Rechercher..."
+    "search": "Rechercher...",
+    "updateAvailable": "Nouvelles données disponibles!"
   },
   "filters": {
     "all": "Tout",
